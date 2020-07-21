@@ -1,7 +1,6 @@
 """
-A program that stores this book information:
-Title, Author
-Year, ISBN
+A program that stores those book informations:
+Title, Author, Year, ISBN
 
 User can:
 
@@ -14,7 +13,9 @@ Close
 """
 
 from tkinter import *
-import backend
+from backend import Database
+
+database=Database("books.db")
 
 def get_selected_row(event):
     try:
@@ -29,33 +30,38 @@ def get_selected_row(event):
         e3.insert(END, selected_tuple[3])
         e4.delete(0, END)
         e4.insert(END, selected_tuple[4])
+
     except IndexError:
         pass
 
 def view_command():
     list1.delete(0,END)
-    for row in backend.view():
+    for row in database.view():
         list1.insert(END,row)
 
 def search_command():
     list1.delete(0,END)
-    for row in backend.search(title_text.get(), author_text.get(), year_text.get(), ISBN_text.get()):
+    for row in database.search(title_text.get(), author_text.get(), year_text.get(), ISBN_text.get()):
         list1.insert(END,row)
 
 def add_command():
-    backend.insert(title_text.get(), author_text.get(), year_text.get(), ISBN_text.get())
+    database.insert(title_text.get(), author_text.get(), year_text.get(), ISBN_text.get())
     list1.delete(0,END)
     list1.insert(END,(title_text.get(), author_text.get(), year_text.get(), ISBN_text.get()))
+    list1.delete(0,END)
+    for row in database.view():
+        list1.insert(END,row)
 
 def delete_command():
-    backend.delete(selected_tuple[0])
+    database.delete(selected_tuple[0])
     list1.delete(0,END)
-    for row in backend.view():
+    for row in database.view():
         list1.insert(END,row)
 
 def update_command():
-    backend.update(selected_tuple[0],(title_text.get(), author_text.get(), year_text.get(), ISBN_text.get()))
-
+    database.update(selected_tuple[0],(title_text.get(), author_text.get(), year_text.get(), ISBN_text.get()))
+    for row in database.view():
+        list1.insert(END,row)
 
 window = Tk()
 
