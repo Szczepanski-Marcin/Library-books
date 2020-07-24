@@ -34,15 +34,18 @@ def get_selected_row(event):
     except IndexError:
         pass
 
+
 def view_command():
     list1.delete(0,END)
     for row in database.view():
         list1.insert(END,row)
 
+
 def search_command():
     list1.delete(0,END)
     for row in database.search(title_text.get(), author_text.get(), year_text.get(), ISBN_text.get()):
         list1.insert(END,row)
+
 
 def add_command():
     database.insert(title_text.get(), author_text.get(), year_text.get(), ISBN_text.get())
@@ -52,18 +55,22 @@ def add_command():
     for row in database.view():
         list1.insert(END,row)
 
+
 def delete_command():
     database.delete(selected_tuple[0])
     list1.delete(0,END)
     for row in database.view():
         list1.insert(END,row)
 
+
 def update_command():
     database.update(selected_tuple[0],(title_text.get(), author_text.get(), year_text.get(), ISBN_text.get()))
     for row in database.view():
         list1.insert(END,row)
 
+
 window = Tk()
+
 
 window.wm_title("Book Store")
 
@@ -123,5 +130,6 @@ b5.grid(row=6, column=3)
 
 b6=Button(window, text="Close", width=12, command=window.destroy)
 b6.grid(row=7, column=3)
+
 
 window.mainloop()
